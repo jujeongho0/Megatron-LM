@@ -1,11 +1,11 @@
 # Megatron Bridge
 
-Docker: ncai-wbl-registry.kr.ncr.ntruss.com/wbl-megatron-etri-ngc-py2504 
-
 **0. Installation:**
 ```bash
-pip install megatron-bridge
-pip install transformers==4.53.3
+docker run --rm -it -w /workspace -v $(pwd):/workspace \
+  --entrypoint bash \
+  --gpus all \
+  nvcr.io/nvidia/nemo:25.09
 ```
 
 **1. Prepare HF Dummy Model:**
