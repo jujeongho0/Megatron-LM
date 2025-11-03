@@ -43,7 +43,7 @@ python -m torch.distributed.run \
   bridge/export_megatron_to_hf.py \
   \
   --hf-model bridge/WBL-20B-A2B-HF-Dummy \
-  --megatron-path /path/to/megatron_model \
+  --megatron-path /path/to/megatron_model/iter_${INDEX} \
   --hf-path bridge/exports/WBL-20B-A2B-HF
 ```
 
