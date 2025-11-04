@@ -34,6 +34,9 @@ python3 -m torch.distributed.run \
   --moe-router-topk 8 \
   --moe-router-score-function sigmoid \
   --moe-router-dtype fp32 \
+  --moe-token-dispatcher-type alltoall \
+  --moe-router-topk-scaling-factor 1.0 \
+  --rotary-scaling-factor 1.0 \
   --sliding-window-size 512 \
   --sliding-window-interleave-k 6 \
   \
@@ -69,4 +72,3 @@ python3 -m torch.distributed.run \
   --load /workspace/data/FlashBlade/klab_data/checkpoints/pretrain_stage1_20b \
   --prompts \
   "Charlotte Perriand (24 October 1903 - 27 October 1999) was"
- 
