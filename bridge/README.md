@@ -44,7 +44,7 @@ python -m torch.distributed.run \
   \
   --hf-model bridge/WBL-20B-A2B-HF-Dummy \
   --megatron-path /path/to/megatron_model/iter_${INDEX} \
-  --hf-path bridge/exports/WBL-20B-A2B-HF
+  --hf-path /path/to/hf_model
 ```
 
 **4. Generation**
