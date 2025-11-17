@@ -56,7 +56,7 @@ if __name__ == "__main__":
     with temporary_distributed_context(backend):
         megatron_model = load_megatron_model(args.megatron_path, args.hf_model)
         bridge.save_hf_pretrained([megatron_model], args.hf_path)
-        shutil.copy(f"{args.hf_model}/modeling_varco_llm_3_0.py", args.hf_path)
+        shutil.copy(f"{args.hf_model}/modeling_wbl.py", args.hf_path)
 
     print(f"✅ Successfully exported model to: {args.hf_path}")
 
