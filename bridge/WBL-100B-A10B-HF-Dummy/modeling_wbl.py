@@ -17,7 +17,7 @@ from transformers.modeling_outputs import BaseModelOutputWithPast, CausalLMOutpu
 from transformers.modeling_rope_utils import ROPE_INIT_FUNCTIONS, dynamic_rope_update
 from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS, PreTrainedModel
 from transformers.processing_utils import Unpack
-from transformers.utils import LossKwargs, can_return_tuple, logging
+from transformers.utils import TransformersKwargs, can_return_tuple, logging
 from .configuration_wbl import WBLConfig
 
 
@@ -576,9 +576,6 @@ class WBLModel(WBLPreTrainedModel):
         )
 
 
-class KwargsForCausalLM(FlashAttentionKwargs, LossKwargs): ...
-
-
 class WBLForCausalLM(WBLPreTrainedModel, GenerationMixin):
     _tied_weights_keys = ["lm_head.weight"]
     _tp_plan = {"lm_head": "colwise_rep"}
@@ -625,7 +622,7 @@ class WBLForCausalLM(WBLPreTrainedModel, GenerationMixin):
         output_hidden_states: Optional[bool] = None,
         cache_position: Optional[torch.LongTensor] = None,
         logits_to_keep: Union[int, torch.Tensor] = 0,
-        **kwargs: Unpack[KwargsForCausalLM],
+        **kwargs: Unpack[TransformersKwargs],
     ) -> CausalLMOutputWithPast:
 
         output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
