@@ -6,6 +6,8 @@ docker run --rm -it -w /workspace -v $(pwd):/workspace \
   --entrypoint bash \
   --gpus all \
   nvcr.io/nvidia/nemo:25.09
+
+pip install -U transformers
 ```
 
 **1. Prepare HF Dummy Model:**
