@@ -7,7 +7,7 @@ docker run --rm -it -w /workspace -v $(pwd):/workspace \
   --gpus all \
   nvcr.io/nvidia/nemo:25.09
 
-pip install -U transformers
+pip install transformers==4.57.1
 ```
 
 **1. Prepare HF Dummy Model:**
