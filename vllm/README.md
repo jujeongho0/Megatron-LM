@@ -3,7 +3,7 @@
 **0. Installation:**
 ```bash
 pip install vllm==0.11.0
-pip install transformers==4.57.1
+pip install -U transformers
 ```
 
 **1. Inference with vLLM:**
