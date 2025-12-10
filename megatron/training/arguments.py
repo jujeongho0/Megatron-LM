@@ -51,6 +51,7 @@ def add_megatron_arguments(parser: argparse.ArgumentParser):
     """"Add Megatron-LM arguments to the given parser."""
 
     # Standard arguments.
+    parser = _add_linear_merge_args(parser)
     parser = _add_network_size_args(parser)
     parser = _add_regularization_args(parser)
     parser = _add_training_args(parser)
@@ -1214,6 +1215,36 @@ def core_transformer_config_from_args(args, config_class=None):
 
     # Return config.
     return config_class(**kw_args)
+
+
+def _add_linear_merge_args(parser):
+    group = parser.add_argument_group(title='linear merge')
+
+    group.add_argument('--num-merge-models', type=int, default=None)
+
+    group.add_argument('--model1', type=str, default=None)
+    group.add_argument('--model2', type=str, default=None)
+    group.add_argument('--model3', type=str, default=None)
+    group.add_argument('--model4', type=str, default=None)
+    group.add_argument('--model5', type=str, default=None)
+    group.add_argument('--model6', type=str, default=None)
+    group.add_argument('--model7', type=str, default=None)
+    group.add_argument('--model8', type=str, default=None)
+    group.add_argument('--model9', type=str, default=None)
+    group.add_argument('--model10', type=str, default=None)
+
+    group.add_argument('--weight1', type=float, default=None)
+    group.add_argument('--weight2', type=float, default=None)
+    group.add_argument('--weight3', type=float, default=None)
+    group.add_argument('--weight4', type=float, default=None)
+    group.add_argument('--weight5', type=float, default=None)
+    group.add_argument('--weight6', type=float, default=None)
+    group.add_argument('--weight7', type=float, default=None)
+    group.add_argument('--weight8', type=float, default=None)
+    group.add_argument('--weight9', type=float, default=None)
+    group.add_argument('--weight10', type=float, default=None)
+
+    return parser
 
 
 def _add_transformer_engine_args(parser):
