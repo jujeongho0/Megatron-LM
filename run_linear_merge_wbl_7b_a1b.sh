@@ -27,7 +27,7 @@ python3 -m torch.distributed.run \
   --swiglu \
   --untie-embeddings-and-output-weights \
   \
-  --num-experts 128 \
+  --num-experts 64 \
   --moe-layer-freq "([0]*1+[1]*23)" \
   --moe-ffn-hidden-size 1024 \
   --moe-shared-expert-intermediate-size 1024 \
