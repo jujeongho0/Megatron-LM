@@ -74,6 +74,7 @@ python3 -m torch.distributed.run \
   --weight2 0.5 \
   \
   --no-save-optim \
+  --no-save-rng \
   --save-interval 9999 \
   --save /path/to/wbl_7b_a1b_merged \
 
