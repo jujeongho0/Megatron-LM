@@ -60,7 +60,8 @@ def main():
     for i in range(1, args.num_merge_models + 1):
         model_indices.append(f"model{i}")
         wi = getattr(args, f"weight{i}")
-        weights.append(wi)
+        if wi is not None:
+            weights.append(wi)
 
     if not weights:
         weights = [1.0 / args.num_merge_models] * args.num_merge_models
@@ -71,26 +72,28 @@ def main():
     base_model = get_model(model_provider, wrap_with_ddp=False)
     load_checkpoint(base_model, None, None, load_arg=model_indices[0], strict=False)
 
-    base_state = base_model[0].state_dict()
-    for k, v in base_state.items():
-      if v is not None and torch.is_floating_point(v):
-           v.mul_(weights[0])
+    for chunk_idx in range(len(base_model)):
+        base_state = base_model[chunk_idx].state_dict()
+        for k, v in base_state.items():
+            if v is not None and torch.is_floating_point(v):
+                v.mul_(weights[0])
 
-    for model_index, w in zip(model_indices[1:], weights[1:]):
-        model = get_model(model_provider, wrap_with_ddp=False)
-        load_checkpoint(model, None, None, load_arg=model_index, strict=False)
-        model = model[0]
+        for model_index, w in zip(model_indices[1:], weights[1:]):
+            model = get_model(model_provider, wrap_with_ddp=False)
+            load_checkpoint(model, None, None, load_arg=model_index, strict=False)
 
-        other_state = model.state_dict()
-        for k, v_other in other_state.items():
-            if v_other is not None and torch.is_floating_point(v_other):
-                base_state[k].add_(v_other, alpha=w)
+            other_state = model[chunk_idx].state_dict()
+            for k, v_other in other_state.items():
+                if v_other is not None and torch.is_floating_point(v_other):
+                    base_state[k].add_(v_other, alpha=w)
 
-        del model, other_state
-        torch.cuda.empty_cache()
+            del model, other_state
+            torch.cuda.empty_cache()
 
-    latest_checkpointed_iteration = 9999 # FIXME
-    save_checkpoint(latest_checkpointed_iteration, base_model, None, None, 0)
+    common_state_dict = dist_checkpointing.load_common_state_dict(getattr(args, model_indices[0]))
+
+    latest_checkpointed_iteration = 0
+    save_checkpoint(latest_checkpointed_iteration, base_model, None, None, common_state_dict['num_floating_point_operations_so_far'])
 
     torch.distributed.destroy_process_group()
 
