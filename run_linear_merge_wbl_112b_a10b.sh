@@ -36,6 +36,7 @@ python3 -m torch.distributed.run \
   --moe-router-dtype fp32 \
   --moe-token-dispatcher-type alltoall \
   --moe-router-topk-scaling-factor 1.0 \
+  --moe-grouped-gemm \
   --rotary-scaling-factor 1.0 \
   --sliding-window-size 512 \
   --sliding-window-interleave-k 6 \
@@ -73,5 +74,6 @@ python3 -m torch.distributed.run \
   --weight2 0.5 \
   \
   --no-save-optim \
+  --no-save-rng \
   --save-interval 9999 \
   --save /path/to/wbl_112b_a10b_merged \
