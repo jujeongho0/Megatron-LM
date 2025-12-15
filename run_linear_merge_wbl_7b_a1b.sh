@@ -14,7 +14,7 @@ python3 -m torch.distributed.run \
   --nproc_per_node=${NUM_GPUS} \
   ${SCRIPT} \
   \
-  ---disable-bias-linear \
+  --disable-bias-linear \
   --seq-length 4096 \
   --max-position-embeddings 32768 \
   --num-layers 24 \
