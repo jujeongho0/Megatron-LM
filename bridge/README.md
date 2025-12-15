@@ -14,7 +14,7 @@ pip install transformers==4.57.1
 ```
 Megatron-LM/
 ├── bridge/
-│   ├── WBL-100B-A10B-HF-Dummy/
+│   ├── WBL-112B-A10B-HF-Dummy/
 │   │   ├── config.json # 모델의 Configuration에 따라 수정
 │   │   ├── configuration_wbl.py
 │   │   ├── generation_config.json
@@ -31,10 +31,10 @@ Megatron-LM/
 
 **2. Build Dummy Model's Weight Index File:**
 ```bash
-python bridge/build_weight_index.py --hf-model bridge/WBL-100B-A10B-HF-Dummy
+python bridge/build_weight_index.py --hf-model bridge/WBL-112B-A10B-HF-Dummy
 ```
 
-Check `bridge/WBL-20B-A2B-HF-Dummy/model.safetensors.index.json` file.
+Check `bridge/WBL-112B-A10B-HF-Dummy/model.safetensors.index.json` file.
 
 **3. Export Megatron to HF:**
 ```bash
@@ -44,9 +44,9 @@ python -m torch.distributed.run \
   --nproc_per_node=1 \
   bridge/export_megatron_to_hf.py \
   \
-  --hf-model bridge/WBL-100B-A10B-HF-Dummy \
+  --hf-model bridge/WBL-112B-A10B-HF-Dummy \
   --megatron-path /path/to/megatron_model \
-  --hf-path bridge/exports/WBL-100B-A10B-HF
+  --hf-path bridge/exports/WBL-112B-A10B-HF
 ```
 
 **4. Generation**
@@ -54,7 +54,7 @@ python -m torch.distributed.run \
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-model_path = "bridge/exports/WBL-100B-A10B-HF"
+model_path = "bridge/exports/WBL-112B-A10B-HF"
 model = AutoModelForCausalLM.from_pretrained(
     model_path,
     torch_dtype=torch.bfloat16,
