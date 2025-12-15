@@ -15,12 +15,12 @@ from wbl import WBLForCausalLM
 
 ModelRegistry.register_model("WBLForCausalLM", WBLForCausalLM)
 
-model_path = "/workspace/language-data/lm_team/personal/jeongho/WBL-100B-A10B-S1-HF"
+model_path = "/workspace/language-data/lm_team/personal/jeongho/WBL-112B-A10B-S1-HF"
 
 llm = LLM(
     model=model_path,
     trust_remote_code=True,
-    tensor_parallel_size=8,
+    pipeline_parallel_size=8,
 )
 
 print("")
@@ -41,6 +41,5 @@ for output in outputs:
     prompt = output.prompt
     generated_text = output.outputs[0].text
     print("")
-    print(f"{prompt}{generated_text}")
     print(f"{prompt}{generated_text}")
 ```
