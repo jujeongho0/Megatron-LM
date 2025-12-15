@@ -15,18 +15,18 @@ pip install transformers==4.57.1
 Megatron-LM/
 ├── bridge/
 │   ├── WBL-100B-A10B-HF-Dummy/
-│   │   ├── config.json/              # 모델의 Configuration에 따라 수정
-│   │   ├── configuration_wbl.py/
-│   │   ├── generation_config.json/
-│   │   ├── modeling_wbl.py/
-│   │   ├── special_tokens_map.json/
-│   │   ├── tokenizer_config.json/  
-│   │   └── tokenizer.json/
-│   ├── build_weight_index.py/
-│   ├── export_megatron_to_hf.py/        
-│   ├── README.md/
-│   └── wbl_bridge.py/     
-└── .../
+│   │   ├── config.json # 모델의 Configuration에 따라 수정
+│   │   ├── configuration_wbl.py
+│   │   ├── generation_config.json
+│   │   ├── modeling_wbl.py
+│   │   ├── special_tokens_map.json
+│   │   ├── tokenizer_config.json
+│   │   └── tokenizer.json
+│   ├── build_weight_index.py
+│   ├── export_megatron_to_hf.py
+│   ├── README.md
+│   └── wbl_bridge.py
+└── ...
 ```
 
 **2. Build Dummy Model's Weight Index File:**
