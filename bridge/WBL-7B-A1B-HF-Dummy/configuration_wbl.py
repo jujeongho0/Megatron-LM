@@ -3,7 +3,6 @@ from transformers.modeling_rope_utils import rope_config_validation
 
 
 class WBLConfig(PretrainedConfig):
-
     model_type = "wbl"
     keys_to_ignore_at_inference = ["past_key_values"]
     base_model_tp_plan = {  # TODO: only replicate attention layers when > first_k_dense_replace
@@ -98,12 +97,10 @@ class WBLConfig(PretrainedConfig):
         self.rope_scaling = rope_scaling
         self.attention_bias = attention_bias
         self.attention_dropout = attention_dropout
-        # Validate the correctness of rotary position embeddings parameters
-        # BC: if there is a 'type' field, copy it it to 'rope_type'.
-        if self.rope_scaling is not None and "type" in self.rope_scaling:
-            self.rope_scaling["rope_type"] = self.rope_scaling["type"]
 
         if self.rope_scaling is not None:
+            if self.rope_scaling["rope_type"] == "rope":
+                self.rope_scaling["rope_type"] = "default"
             for key in ["beta_fast", "beta_slow", "factor"]:
                 if key in self.rope_scaling:
                     self.rope_scaling[key] = float(self.rope_scaling[key])
@@ -112,6 +109,7 @@ class WBLConfig(PretrainedConfig):
 
         if self.layer_types is None:
             self.layer_types = [
+                # FIXME: megatron transformer_config에 맞게 패턴 변경 필요
                 "sliding_attention" if bool((i + 1) % 6) else "full_attention"
                 for i in range(self.num_hidden_layers)
             ]
