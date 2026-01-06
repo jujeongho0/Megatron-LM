@@ -1,45 +1,26 @@
-# vLLM
+# Register model
 
-**0. Installation:**
-```bash
-pip install vllm==0.11.0
-pip install -U transformers
+```shell
+export PLUGIN_PATH=/path/to/plugin
+export PYTHONPATH=$PLUGIN_PATH:$PYTHONPATH
+pip install $PLUGIN_PATH
 ```
 
-**1. Inference with vLLM:**
-```bash
-import torch
-from vllm import ModelRegistry, LLM, SamplingParams
 
-from wbl import WBLForCausalLM
+# Serving example
 
-ModelRegistry.register_model("WBLForCausalLM", WBLForCausalLM)
+```shell
+vllm serve path/to/ckpt --served-model-name <MODEL_NAME> --trust-remote-code --tensor-parallel-size 8
+```
 
-model_path = "/workspace/language-data/lm_team/personal/jeongho/WBL-112B-A10B-S1-HF"
 
-llm = LLM(
-    model=model_path,
-    trust_remote_code=True,
-    pipeline_parallel_size=8,
-)
+# Request example
 
-print("")
-print(f"Successfully loaded model: {model_path.split('/')[-1]}")
-
-prompts = [
-    "대한민국(한국 한자: 大韓民國)은 동아시아의 한반도 군사 분계선 남부에 위치한 나라로,",
-    "인공지능(人工智能, 영어: artificial intelligence, AI)은",
-    "Charlotte Perriand (24 October 1903 - 27 October 1999) was",
-    "Albert Einstein (14 March 1879 - 18 April 1955) was",
-    "def fibonacci(n):",
-]
-
-sampling_params = SamplingParams(max_tokens=128, temperature=0.0)
-outputs = llm.generate(prompts, sampling_params)
-
-for output in outputs:
-    prompt = output.prompt
-    generated_text = output.outputs[0].text
-    print("")
-    print(f"{prompt}{generated_text}")
+```shell
+curl http://localhost:8000/v1/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "<MODEL_NAME>",
+    "prompt": "Albert Einstein (14 March 1879 - 18 April 1955) was"
+  }'
 ```
