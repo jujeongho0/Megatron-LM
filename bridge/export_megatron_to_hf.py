@@ -15,7 +15,7 @@ from megatron.bridge import AutoBridge
 
 from pretrain_gpt_for_wbl import model_provider_with_args
 
-from bridge.wbl_bridge import WBLBridge # register bridge
+from bridge.vaetki_bridge import VaetkiBridge # register bridge
 
 
 def load_megatron_model(megatron_path, hf_model):
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     with temporary_distributed_context(backend):
         megatron_model = load_megatron_model(args.megatron_path, args.hf_model)
         bridge.save_hf_pretrained([megatron_model], args.hf_path)
-        shutil.copy(f"{args.hf_model}/modeling_wbl.py", args.hf_path)
+        shutil.copy(f"{args.hf_model}/modeling_vaetki.py", args.hf_path)
 
     print(f"✅ Successfully exported model to: {args.hf_path}")
 
